@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["DOM", "ES2020"],
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "useDefineForClassFields": true,
+    "allowImportingTsExtensions": true,
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "framework/bootstrap.browser": ["./src/bootstrap.browser"],
+      "framework/bootstrap.ssr": ["./src/bootstrap.ssr"],
+      "framework/react-dom.server": ["./src/react-dom.server.node"],
+      "framework/react-server-dom.client": [
+        "./src/react-server-dom.client.node"
+      ],
+      "framework/react-server-dom.server": [
+        "./src/react-server-dom.server.node"
+      ]
+    }
+  },
+  "include": ["src"]
+}

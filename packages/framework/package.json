@@ -1,0 +1,134 @@
+{
+  "name": "framework",
+  "version": "0.0.0",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/server.d.mts",
+        "default": "./dist/server.mjs"
+      },
+      "require": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      }
+    },
+    "./ssr": {
+      "import": {
+        "types": "./dist/ssr.d.mts",
+        "default": "./dist/ssr.mjs"
+      },
+      "require": {
+        "types": "./dist/ssr.d.ts",
+        "default": "./dist/ssr.js"
+      }
+    },
+    "./runtime.client": {
+      "import": {
+        "types": "./dist/runtime.client.d.mts",
+        "default": "./dist/runtime.client.mjs"
+      },
+      "require": {
+        "types": "./dist/runtime.client.d.ts",
+        "default": "./dist/runtime.client.js"
+      }
+    },
+    "./runtime.server": {
+      "import": {
+        "types": "./dist/runtime.server.d.mts",
+        "default": "./dist/runtime.server.mjs"
+      },
+      "require": {
+        "types": "./dist/runtime.server.d.ts",
+        "default": "./dist/runtime.server.js"
+      }
+    },
+    "./bootstrap.browser": "./dist/bootstrap.browser.mjs",
+    "./bootstrap.ssr": "./dist/bootstrap.ssr.mjs",
+    "./entry.browser": "./dist/entry.browser.mjs",
+    "./entry.ssr": "./dist/entry.ssr.mjs",
+    "./react-dom.server": {
+      "node": {
+        "import": {
+          "types": "./dist/react-dom.server.node.d.mts",
+          "default": "./dist/react-dom.server.node.mjs"
+        },
+        "require": {
+          "types": "./dist/react-dom.server.node.d.ts",
+          "default": "./dist/react-dom.server.node.js"
+        }
+      },
+      "default": {
+        "import": {
+          "types": "./dist/react-dom.server.web.d.mts",
+          "default": "./dist/react-dom.server.web.mjs"
+        },
+        "require": {
+          "types": "./dist/react-dom.server.web.d.ts",
+          "default": "./dist/react-dom.server.web.js"
+        }
+      }
+    },
+    "./react-server-dom.client": {
+      "node": {
+        "import": {
+          "types": "./dist/react-server-dom.client.node.d.mts",
+          "default": "./dist/react-server-dom.client.node.mjs"
+        },
+        "require": {
+          "types": "./dist/react-server-dom.client.node.d.ts",
+          "default": "./dist/react-server-dom.client.node.js"
+        }
+      },
+      "default": {
+        "import": {
+          "types": "./dist/react-server-dom.client.web.d.mts",
+          "default": "./dist/react-server-dom.client.web.mjs"
+        },
+        "require": {
+          "types": "./dist/react-server-dom.client.web.d.ts",
+          "default": "./dist/react-server-dom.client.web.js"
+        }
+      }
+    },
+    "./react-server-dom.server": {
+      "node": {
+        "import": {
+          "types": "./dist/react-server-dom.server.node.d.mts",
+          "default": "./dist/react-server-dom.server.node.mjs"
+        },
+        "require": {
+          "types": "./dist/react-server-dom.server.node.d.ts",
+          "default": "./dist/react-server-dom.server.node.js"
+        }
+      },
+      "default": {
+        "import": {
+          "types": "./dist/react-server-dom.server.web.d.mts",
+          "default": "./dist/react-server-dom.server.web.mjs"
+        },
+        "require": {
+          "types": "./dist/react-server-dom.server.web.d.ts",
+          "default": "./dist/react-server-dom.server.web.js"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch"
+  },
+  "dependencies": {
+    "react": "19.0.0-rc-378b305958-20240710",
+    "react-dom": "19.0.0-rc-378b305958-20240710",
+    "react-server-dom-webpack": "19.0.0-rc-378b305958-20240710",
+    "rsc-html-stream": "0.0.3",
+    "urlpattern-polyfill": "10.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "tsup": "8.1.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@framework/dev",
+  "version": "0.0.0",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "bin": {
+    "framework": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch"
+  },
+  "dependencies": {
+    "@hattip/adapter-node": "0.0.46",
+    "@module-federation/enhanced": "0.2.6",
+    "@module-federation/runtime": "0.2.6",
+    "@rsbuild/core": "1.0.0-alpha.7",
+    "@rspack/core": "0.7.5",
+    "arg": "5.0.2",
+    "unplugin-rsc": "0.0.11"
+  },
+  "peerDependencies": {
+    "framework": "workspace:*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "tsup": "8.1.0"
+  }
+}
