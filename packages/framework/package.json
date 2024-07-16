@@ -42,8 +42,6 @@
         "default": "./dist/runtime.server.js"
       }
     },
-    "./bootstrap.browser": "./dist/bootstrap.browser.mjs",
-    "./bootstrap.ssr": "./dist/bootstrap.ssr.mjs",
     "./entry.browser": "./dist/entry.browser.mjs",
     "./entry.ssr": "./dist/entry.ssr.mjs",
     "./react-dom.server": {

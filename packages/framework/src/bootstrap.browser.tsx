@@ -1,11 +1,31 @@
 import { startTransition } from "react";
-import { hydrateRoot } from "react-dom/client";
-// @ts-expect-error - no types
-import { createFromReadableStream } from "react-server-dom-webpack/client.browser";
-import { rscStream } from "rsc-html-stream/client";
+import { createRoot } from "react-dom/client";
 
-const root = createFromReadableStream(rscStream);
+import { createFromReadableStream } from "framework/react-server-dom.client";
 
-startTransition(() => {
-  hydrateRoot(document, root);
-});
+let root: ReturnType<typeof createRoot> | null;
+
+fetch(window.location.href, {
+  headers: { Accept: "text/x-component" },
+})
+  .then((response) => {
+    if (!response.body) {
+      throw new Error("RSC response body is missing");
+    }
+    return createFromReadableStream(response.body);
+  })
+  .then((vdom) =>
+    startTransition(() => {
+      const rootElement = document.getElementById("root");
+      if (!rootElement) {
+        console.error("Root element not found");
+        return;
+      }
+      root = createRoot(rootElement, {
+        onRecoverableError(error, errorInfo) {
+          console.error("Recoverable error", { error, errorInfo });
+        },
+      });
+      root.render(vdom);
+    })
+  );

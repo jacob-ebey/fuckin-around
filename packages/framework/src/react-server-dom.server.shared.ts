@@ -17,7 +17,7 @@ export async function getWebpackMap() {
         const exportedId = restExportedId.join("#");
 
         return {
-          id: p,
+          id: `fcr:${remoteId}:${exposedId}`,
           name: exportedId,
           chunks: [`fcr:${remoteId}:${exposedId}`],
         };

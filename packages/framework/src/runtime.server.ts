@@ -10,7 +10,7 @@ export function registerClientReference(
 ) {
   return Object.defineProperties(proxy, {
     $$typeof: { value: Symbol.for("react.client.reference") },
-    $$id: { value: id },
+    $$id: { value: `${id}#${exp}` },
     $$async: { value: true },
   });
 }

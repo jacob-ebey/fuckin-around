@@ -4,6 +4,8 @@ import * as streamWeb from "node:stream/web";
 // @ts-expect-error - no types
 import ReactServerDOM from "react-server-dom-webpack/client.node";
 
+let ssrManifest: unknown = "__FRAMEWORK__SSR_MANIFEST__";
+
 export function createFromReadableStream(
   readableStream: ReadableStream<Uint8Array>,
   options?: {
@@ -11,7 +13,6 @@ export function createFromReadableStream(
     replayConsoleLogs?: boolean;
   }
 ) {
-  const ssrManifest = {};
   return ReactServerDOM.createFromNodeStream(
     stream.Readable.fromWeb(
       readableStream as streamWeb.ReadableStream<Uint8Array>

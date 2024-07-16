@@ -1,8 +1,8 @@
+import * as fs from "node:fs";
 import * as path from "node:path";
 
-// import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
-import { Rspack } from "@rsbuild/core";
-// import { container } from "@rspack/core";
+import type { Rspack } from "@rsbuild/core";
+import { DefinePlugin } from "@rspack/core";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
 
 declare global {
@@ -49,14 +49,16 @@ export class FrameworkClientPlugin {
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
       shareScope: "client",
+      filename: "remote-entry.js",
+      dts: false,
+      manifest: false,
       shared: {
         react: { singleton: true, shareScope: "client" },
         "react-dom": { singleton: true, shareScope: "client" },
       },
       remotes: {
-        [this.containerName + "_client"]: `commonjs ${
-          this.containerName + "_client"
-        }`,
+        [this.containerName +
+        "_client"]: `${this.containerName}_client@/remote-entry.js`,
       },
       runtimePlugins: [require.resolve("./runtime.client.js")],
     }).apply(compiler as any);
@@ -71,20 +73,23 @@ export class FrameworkServerPlugin {
       name: this.containerName + "_server",
       exposes: getExposedServerModules(),
       shareScope: "server",
+      dts: false,
       shared: {
         react: { singleton: true, shareScope: "server" },
         "react-dom": { singleton: true, shareScope: "server" },
       },
       remotes: {
-        [this.containerName + "_server"]: `commonjs ${
-          this.containerName + "_server"
-        }`,
+        [this.containerName + "_server"]: `promise new Promise(() => {
+          import(${JSON.stringify(this.containerName + "_server")});
+        })`,
       },
     }).apply(compiler as any);
   }
 }
 
 export class FrameworkPlugin {
+  constructor(private containerName: string) {}
+
   apply(compiler: Rspack.Compiler) {}
 
   handleUseClient(filename: string) {

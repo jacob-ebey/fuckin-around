@@ -1,5 +1,7 @@
 import { defineApp, defaultRenderMatch } from "framework";
 
+import { Component as NotFoundFallback } from "./routes/404";
+
 export default defineApp(
   [
     {
@@ -10,12 +12,8 @@ export default defineApp(
           path: "/",
         },
         {
-          import: () => import("./routes/home"),
+          import: () => import("./routes/about"),
           path: "/about",
-        },
-        {
-          import: () => import("./routes/home"),
-          path: "/item/:itemId",
         },
         {
           import: () => import("./routes/404"),
@@ -25,6 +23,8 @@ export default defineApp(
     },
   ],
   {
-    renderMatch: defaultRenderMatch({}),
+    renderMatch: defaultRenderMatch({
+      NotFoundFallback,
+    }),
   }
 );

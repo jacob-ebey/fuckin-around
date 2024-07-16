@@ -84,7 +84,7 @@ async function loader(this: Rspack.LoaderContext, content: string, map: any) {
         }
         return getId(containerName, filename, directive);
       },
-      importFrom: "react-server-dom-webpack/server",
+      importFrom: "framework/runtime.server",
       importClient: "registerClientReference",
       importServer: "registerServerReference",
     });

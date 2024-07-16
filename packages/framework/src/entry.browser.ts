@@ -1,1 +1,1 @@
-import("framework/bootstrap.browser");
+import("./bootstrap.browser");

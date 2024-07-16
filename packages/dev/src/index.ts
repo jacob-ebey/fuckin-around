@@ -2,6 +2,7 @@ import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 
 import type { RsbuildPlugin } from "@rsbuild/core";
+import type { MultiStats } from "@rspack/core";
 
 import {
   FrameworkPlugin,
@@ -31,12 +32,12 @@ export function pluginFramework(): RsbuildPlugin {
         await fsp.readFile(path.resolve(process.cwd(), "package.json"), "utf-8")
       );
 
-      const containerName = pkgJSON.name?.replace(/[^\w]/g, "_");
+      const containerName = pkgJSON.name?.replace(/[^\w]/g, "_") as string;
       if (!containerName) {
         throw new Error("A valid package.json 'name' is required.");
       }
 
-      const frameworkPlugin = new FrameworkPlugin();
+      const frameworkPlugin = new FrameworkPlugin(containerName);
       const clientPlugin = new FrameworkClientPlugin(containerName);
       const serverPlugin = new FrameworkServerPlugin(containerName);
 
@@ -59,32 +60,40 @@ export function pluginFramework(): RsbuildPlugin {
                 },
                 output: {
                   target: "web",
+                  sourceMap: { js: false },
                   distPath: {
                     root: "dist/browser",
-                  },
-                },
-              },
-              ssr: {
-                source: {
-                  entry: {
-                    index: "framework/entry.ssr",
-                  },
-                },
-                output: {
-                  minify: false,
-                  target: "node",
-                  distPath: {
-                    root: "dist/ssr",
                   },
                 },
                 tools: {
                   rspack: {
                     resolve: {
-                      conditionNames: ["webpack", "..."],
+                      conditionNames: ["webpack", "browser", "..."],
                     },
                   },
                 },
               },
+              // ssr: {
+              //   source: {
+              //     entry: {
+              //       index: "framework/entry.ssr",
+              //     },
+              //   },
+              //   output: {
+              //     target: "node",
+              //     manifest: true,
+              //     distPath: {
+              //       root: "dist/ssr",
+              //     },
+              //   },
+              //   tools: {
+              //     rspack: {
+              //       resolve: {
+              //         conditionNames: ["webpack", "node", "..."],
+              //       },
+              //     },
+              //   },
+              // },
               server: {
                 source: {
                   entry: serverEntry
@@ -94,7 +103,6 @@ export function pluginFramework(): RsbuildPlugin {
                     : undefined,
                 },
                 output: {
-                  minify: false,
                   target: "node",
                   distPath: {
                     root: "dist/server",
@@ -103,7 +111,12 @@ export function pluginFramework(): RsbuildPlugin {
                 tools: {
                   rspack: {
                     resolve: {
-                      conditionNames: ["react-server", "webpack", "..."],
+                      conditionNames: [
+                        "react-server",
+                        "webpack",
+                        "node",
+                        "...",
+                      ],
                     },
                   },
                 },

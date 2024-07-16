@@ -90,17 +90,19 @@ export function defineApp(
     return new Response(
       (
         await renderToReadableStream(root, { signal: request.signal })
-      ).pipeThrough(
-        new TransformStream({
-          transform(chunk, controller) {
-            controller.enqueue(chunk);
-            process.stdout.write(decoder.decode(chunk, { stream: true }));
-          },
-          flush() {
-            process.stdout.write("\n");
-          },
-        })
-      ),
+      )
+      // .pipeThrough(
+      //   new TransformStream({
+      //     transform(chunk, controller) {
+      //       controller.enqueue(chunk);
+      //       process.stdout.write(decoder.decode(chunk, { stream: true }));
+      //     },
+      //     flush() {
+      //       process.stdout.write("\n");
+      //     },
+      //   })
+      // )
+      ,
       {
         status: 200,
         headers: {
