@@ -45,6 +45,14 @@ export class FrameworkClientPlugin {
   constructor(private containerName: string) {}
 
   apply(compiler: Rspack.Compiler) {
+    const libType = compiler.options.output.library?.type;
+
+    const allRemotes = {
+      [this.containerName + "_client"]: libType
+        ? `${libType} ./remote-entry.js`
+        : `${this.containerName}_client@/remote-entry.js`,
+    };
+
     new ModuleFederationPlugin({
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
@@ -56,11 +64,14 @@ export class FrameworkClientPlugin {
         react: { singleton: true, shareScope: "client" },
         "react-dom": { singleton: true, shareScope: "client" },
       },
-      remotes: {
-        [this.containerName +
-        "_client"]: `${this.containerName}_client@/remote-entry.js`,
-      },
+      remotes: { ...allRemotes },
       runtimePlugins: [require.resolve("./runtime.client.js")],
+    }).apply(compiler as any);
+
+    // TODO: collect all remotes from other plugins.
+
+    new DefinePlugin({
+      __FRAMEWORK_REMOTES__: JSON.stringify(allRemotes),
     }).apply(compiler as any);
   }
 }

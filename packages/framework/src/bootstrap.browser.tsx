@@ -29,3 +29,44 @@ fetch(window.location.href, {
       root.render(vdom);
     })
   );
+
+window.navigation?.addEventListener("navigate", (event) => {
+  const url = new URL(event.destination.url);
+  const reactRoot = root;
+
+  if (
+    !reactRoot ||
+    !event.canIntercept ||
+    !event.isTrusted ||
+    event.formData ||
+    event.defaultPrevented ||
+    url.origin !== window.location.origin
+  ) {
+    console.log(event);
+    return;
+  }
+
+  event.intercept({
+    async handler() {
+      await fetch(url, {
+        headers: { Accept: "text/x-component" },
+      })
+        .then((response) => {
+          if (!response.body) {
+            throw new Error("RSC response body is missing");
+          }
+          return createFromReadableStream(response.body);
+        })
+        .then((vdom) => {
+          startTransition(() => {
+            if (!root) {
+              console.error("Root element not found");
+              return;
+            }
+            reactRoot.render(vdom);
+            event.scroll();
+          });
+        });
+    },
+  });
+});

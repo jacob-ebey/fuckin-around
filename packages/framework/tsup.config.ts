@@ -30,6 +30,7 @@ export default defineConfig([
       "src/runtime.server.ts",
       "src/server.tsx",
       "src/ssr.ts",
+      "src/utils.ts",
     ],
     format: ["cjs", "esm"],
     platform: "neutral",

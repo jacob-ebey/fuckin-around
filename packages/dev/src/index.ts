@@ -68,32 +68,32 @@ export function pluginFramework(): RsbuildPlugin {
                 tools: {
                   rspack: {
                     resolve: {
-                      conditionNames: ["webpack", "browser", "..."],
+                      conditionNames: ["browser", "..."],
                     },
                   },
                 },
               },
-              // ssr: {
-              //   source: {
-              //     entry: {
-              //       index: "framework/entry.ssr",
-              //     },
-              //   },
-              //   output: {
-              //     target: "node",
-              //     manifest: true,
-              //     distPath: {
-              //       root: "dist/ssr",
-              //     },
-              //   },
-              //   tools: {
-              //     rspack: {
-              //       resolve: {
-              //         conditionNames: ["webpack", "node", "..."],
-              //       },
-              //     },
-              //   },
-              // },
+              ssr: {
+                source: {
+                  entry: {
+                    index: "framework/entry.ssr",
+                  },
+                },
+                output: {
+                  target: "node",
+                  manifest: true,
+                  distPath: {
+                    root: "dist/ssr",
+                  },
+                },
+                tools: {
+                  rspack: {
+                    resolve: {
+                      conditionNames: ["webpack", "node", "..."],
+                    },
+                  },
+                },
+              },
               server: {
                 source: {
                   entry: serverEntry

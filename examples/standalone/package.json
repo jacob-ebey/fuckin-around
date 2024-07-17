@@ -4,9 +4,9 @@
   "scripts": {
     "build": "framework build",
     "check": "biome check --write",
-    "dev": "framework dev --port 5173",
+    "dev": "framework dev",
     "format": "biome format --write",
-    "preview": "rsbuild preview"
+    "start": "node server.mjs"
   },
   "dependencies": {
     "@hattip/adapter-node": "0.0.46",

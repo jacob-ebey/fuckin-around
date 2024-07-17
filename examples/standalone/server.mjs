@@ -1,20 +1,28 @@
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
 
-// import ReactServerDOM from "react-server-dom-webpack/server";
+import { isTextComponentContentType } from "framework/utils";
 
 import serverMod from "./dist/server/index.js";
+import ssrMod from "./dist/ssr/index.js";
 
 const serverMiddleware = createMiddleware((c) => serverMod.default(c.request), {
   alwaysCallNext: false,
 });
+
+const ssrMiddleware = createMiddleware(
+  (c) => ssrMod.default(c.request, (request) => serverMod.default(request)),
+  {
+    alwaysCallNext: false,
+  }
+);
 
 const app = express();
 
 const browserAssets = express.static("dist/browser");
 
 app.use((req, res, next) => {
-  if (req.header("accept") === "text/x-component") {
+  if (isTextComponentContentType(req.header("accept"))) {
     try {
       return serverMiddleware(req, res, next);
     } catch (reason) {
@@ -22,11 +30,20 @@ app.use((req, res, next) => {
     }
   }
 
+  // if (!req.url || req.url === "/" || req.url === "/index.html") {
+  //   return ssrMiddleware(req, res, next);
+  // }
+
   browserAssets(req, res, (reason) => {
     if (reason) {
       next(reason);
     }
-    res.sendFile("dist/browser/index.html", { root: process.cwd() });
+    if (!res.headersSent) {
+      // SPA mode
+      res.sendFile("dist/browser/index.html", { root: process.cwd() });
+      // SSR mode
+      // ssrMiddleware(req, res, next);
+    }
   });
 });
 

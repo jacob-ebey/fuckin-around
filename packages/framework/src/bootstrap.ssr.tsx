@@ -2,6 +2,7 @@ import {
   createFromReadableStream,
   renderToReadableStream,
 } from "framework/ssr";
+import { isTextComponentContentType } from "framework/utils";
 
 export default async function handleRequest(
   request: Request,
@@ -9,9 +10,7 @@ export default async function handleRequest(
 ) {
   const rscResponse = await callServer(request);
   if (
-    !/\btext\/x\-component\b/.test(
-      rscResponse.headers.get("content-type") || ""
-    ) ||
+    !isTextComponentContentType(rscResponse.headers.get("content-type")) ||
     !rscResponse.body
   ) {
     return new Response("Invalid response from server", {

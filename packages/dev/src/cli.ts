@@ -48,13 +48,12 @@ export async function run() {
     rsbuildConfig.plugins.push(plugin);
   }
 
-  const rsbuild = await createRsbuild({ cwd, rsbuildConfig });
-
   const mode = (args["--mode"] ||
     (command === "build" ? "production" : "development")) as RsbuildMode;
 
   switch (command) {
-    case "build":
+    case "build": {
+      const rsbuild = await createRsbuild({ cwd, rsbuildConfig });
       let previousClientCount: number;
       let previousServerCount: number;
       do {
@@ -66,7 +65,10 @@ export async function run() {
         previousClientCount !== clientModules.size ||
         previousServerCount !== serverModules.size
       );
-    case "dev":
       break;
+    }
+    case "dev": {
+      throw new Error("Not implemented");
+    }
   }
 }

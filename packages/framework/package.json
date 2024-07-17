@@ -22,6 +22,16 @@
         "default": "./dist/ssr.js"
       }
     },
+    "./utils": {
+      "import": {
+        "types": "./dist/utils.d.mts",
+        "default": "./dist/utils.mjs"
+      },
+      "require": {
+        "types": "./dist/utils.d.ts",
+        "default": "./dist/utils.js"
+      }
+    },
     "./runtime.client": {
       "import": {
         "types": "./dist/runtime.client.d.mts",
@@ -124,6 +134,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@types/dom-navigation": "1.0.3",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
