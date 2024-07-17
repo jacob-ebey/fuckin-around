@@ -4,8 +4,9 @@ import { createRoot } from "react-dom/client";
 import { createFromReadableStream } from "framework/react-server-dom.client";
 
 let root: ReturnType<typeof createRoot> | null;
-
-fetch(window.location.href, {
+const url = new URL(window.location.href);
+url.pathname += ".data";
+fetch(url, {
   headers: { Accept: "text/x-component" },
 })
   .then((response) => {
@@ -32,6 +33,7 @@ fetch(window.location.href, {
 
 window.navigation?.addEventListener("navigate", (event) => {
   const url = new URL(event.destination.url);
+  url.pathname += ".data";
   const reactRoot = root;
 
   if (

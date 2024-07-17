@@ -1,8 +1,6 @@
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
 
-import { isTextComponentContentType } from "framework/utils";
-
 import serverMod from "./dist/server/index.js";
 import ssrMod from "./dist/ssr/index.js";
 
@@ -21,30 +19,38 @@ const app = express();
 
 const browserAssets = express.static("dist/browser");
 
+const ssr = false;
 app.use((req, res, next) => {
-  if (isTextComponentContentType(req.header("accept"))) {
-    try {
-      return serverMiddleware(req, res, next);
-    } catch (reason) {
-      console.error(reason);
-    }
-  }
+  const url = new URL(req.url || "/", "http://localhost:3000");
+  const isDataRequest = url.pathname.endsWith(".data");
+  const tryAssets =
+    !ssr || (url.pathname !== "/" && pathname !== "/index.html");
 
-  // if (!req.url || req.url === "/" || req.url === "/index.html") {
-  //   return ssrMiddleware(req, res, next);
-  // }
-
-  browserAssets(req, res, (reason) => {
-    if (reason) {
-      next(reason);
-    }
-    if (!res.headersSent) {
-      // SPA mode
+  const sendResponse = () => {
+    if (isDataRequest) {
+      const serverUrl = new URL(url);
+      serverUrl.pathname = serverUrl.pathname.replace(/\.data$/, "");
+      req.url = serverUrl.pathname + serverUrl.search;
+      serverMiddleware(req, res, next);
+    } else if (ssr) {
+      ssrMiddleware(req, res, next);
+    } else {
       res.sendFile("dist/browser/index.html", { root: process.cwd() });
-      // SSR mode
-      // ssrMiddleware(req, res, next);
     }
-  });
+  };
+
+  if (tryAssets) {
+    browserAssets(req, res, (reason) => {
+      if (reason) {
+        next(reason);
+      }
+      if (!res.headersSent) {
+        sendResponse();
+      }
+    });
+  } else {
+    sendResponse();
+  }
 });
 
 app.listen(3000, "localhost", () => {
