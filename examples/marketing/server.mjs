@@ -17,11 +17,18 @@ const ssrMiddleware = createMiddleware(
 
 const app = express();
 
-const browserAssets = express.static("dist/browser");
+const browserAssets = express.static("dist/browser", {
+  setHeaders(res, path, stat) {
+    if (path.endsWith(".json")) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET");
+    }
+  },
+});
 
 const ssr = false;
 app.use((req, res, next) => {
-  const url = new URL(req.url || "/", "http://localhost:3000");
+  const url = new URL(req.url || "/", "http://localhost:3001");
   const isDataRequest = url.pathname.endsWith(".data");
   const tryAssets =
     !ssr || (url.pathname !== "/" && pathname !== "/index.html");
@@ -53,6 +60,6 @@ app.use((req, res, next) => {
   }
 });
 
-app.listen(3000, "localhost", () => {
-  console.log("Server started on http://localhost:3000");
+app.listen(3001, "localhost", () => {
+  console.log("Server started on http://localhost:3001");
 });

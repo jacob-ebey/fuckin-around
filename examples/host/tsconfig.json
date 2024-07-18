@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "lib": ["DOM", "ES2020"],
+    "types": ["react/canary", "react-dom/canary"],
     "module": "ESNext",
     "jsx": "react-jsx",
     "noEmit": true,
@@ -13,5 +14,5 @@
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src", "server.mjs"]
+  "include": ["src", "rsbuild.config.ts", "server.mjs"]
 }

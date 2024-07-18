@@ -2,7 +2,12 @@
   "compilerOptions": {
     "target": "ES2020",
     "lib": ["DOM", "ES2020"],
-    "types": ["@types/dom-navigation", "node"],
+    "types": [
+      "@types/dom-navigation",
+      "node",
+      "react/canary",
+      "react-dom/canary"
+    ],
     "module": "ESNext",
     "jsx": "react-jsx",
     "noEmit": true,
@@ -19,6 +24,8 @@
     "paths": {
       "framework/bootstrap.browser": ["./src/bootstrap.browser"],
       "framework/bootstrap.ssr": ["./src/bootstrap.ssr"],
+      "framework/client": ["./src/client"],
+      "framework/client.internal": ["./src/client.internal"],
       "framework/react-dom.server": ["./src/react-dom.server.node"],
       "framework/react-server-dom.client": [
         "./src/react-server-dom.client.node"

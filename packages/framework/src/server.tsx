@@ -2,8 +2,13 @@ import { URLPattern } from "urlpattern-polyfill";
 
 import { renderToReadableStream } from "framework/react-server-dom.server";
 
+export { Outlet, OutletProvider } from "framework/client.internal";
+
 export type Route = {
-  Component?: React.FC<{ children?: React.ReactNode }>;
+  Component?: React.FC<{
+    children?: React.ReactNode;
+    url: URL;
+  }>;
 };
 
 export type RouteDefinition = {
@@ -17,10 +22,10 @@ type Match = {
   params: Record<string, string>;
 };
 
-type Matcher = (pathname: string) => false | Match;
+type Matcher = (url: URL) => false | Match;
 
 export type DefineAppOptions = {
-  renderMatch: (match: Match | null) => Promise<unknown>;
+  renderMatch: (url: URL, match: Match | null) => Promise<unknown>;
 };
 
 function DefaultNotFoundFallback() {
@@ -37,14 +42,10 @@ function DefaultNotFoundFallback() {
   );
 }
 
-export function defaultRenderMatch({
-  NotFoundFallback = DefaultNotFoundFallback,
-}: {
-  NotFoundFallback?: React.FC;
-}) {
-  return async (match: Match | null) => {
+export function defaultRenderMatch() {
+  return async (url: URL, match: Match | null) => {
     if (!match) {
-      return <NotFoundFallback />;
+      return null;
     }
     const routesPromises: Promise<Route>[] = [];
     for (let i = match.routes.length - 1; i >= 0; i--) {
@@ -56,7 +57,9 @@ export function defaultRenderMatch({
     let rendered;
     for (const route of routes) {
       if (route.Component) {
-        rendered = <route.Component>{rendered}</route.Component>;
+        rendered = (
+          <route.Component url={new URL(url)}>{rendered}</route.Component>
+        );
       }
     }
     return rendered;
@@ -78,31 +81,17 @@ export function defineApp(
     const url = new URL(request.url);
     let matched: ReturnType<(typeof matchers)[0]> | undefined;
     for (const matcher of matchers) {
-      matched = matcher(url.pathname);
+      matched = matcher(url);
       if (matched) {
         break;
       }
     }
 
-    const root = renderMatch(matched || null);
+    const root = renderMatch(url, matched || null);
 
     const decoder = new TextDecoder();
     return new Response(
-      (
-        await renderToReadableStream(root, { signal: request.signal })
-      )
-      // .pipeThrough(
-      //   new TransformStream({
-      //     transform(chunk, controller) {
-      //       controller.enqueue(chunk);
-      //       process.stdout.write(decoder.decode(chunk, { stream: true }));
-      //     },
-      //     flush() {
-      //       process.stdout.write("\n");
-      //     },
-      //   })
-      // )
-      ,
+      await renderToReadableStream(root, { signal: request.signal }),
       {
         status: 200,
         headers: {
@@ -126,8 +115,11 @@ function defineRoutesRecursive(
 
     if (route.path) {
       const pattern = new URLPattern({ pathname: routePath });
-      matchers.push((pathname) => {
-        const match = pattern.exec({ pathname });
+      matchers.push((url) => {
+        const match = pattern.exec({
+          pathname: url.pathname,
+          search: url.search,
+        });
         if (!match) return false;
         return {
           params: match.pathname.groups as Record<string, string>,

@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "@example/host",
+  "scripts": {
+    "build": "framework build",
+    "check": "biome check --write",
+    "dev": "framework dev",
+    "format": "biome format --write",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@hattip/adapter-node": "0.0.46",
+    "express": "^4.19.2",
+    "framework": "workspace:*",
+    "react": "19.0.0-rc-163365a0-20240717",
+    "react-dom": "19.0.0-rc-163365a0-20240717",
+    "react-server-dom-webpack": "19.0.0-rc-163365a0-20240717"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@framework/dev": "workspace:*",
+    "@rsbuild/core": "1.0.1-beta.3",
+    "@rsbuild/plugin-react": "1.0.0-alpha.7",
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "rspack-plugin-virtual-module": "0.1.13",
+    "typescript": "^5.5.2"
+  }
+}

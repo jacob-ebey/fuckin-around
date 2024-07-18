@@ -18,9 +18,11 @@
     "@hattip/adapter-node": "0.0.46",
     "@module-federation/enhanced": "0.2.6",
     "@module-federation/runtime": "0.2.6",
-    "@rsbuild/core": "1.0.0-alpha.7",
+    "@rsbuild/core": "1.0.1-beta.3",
+    "@rsdoctor/rspack-plugin": "0.3.8",
     "@rspack/core": "0.7.5",
     "arg": "5.0.2",
+    "framework": "workspace:*",
     "unplugin-rsc": "0.0.11"
   },
   "peerDependencies": {

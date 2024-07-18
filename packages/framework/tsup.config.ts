@@ -1,6 +1,7 @@
 import { defineConfig } from "tsup";
 
 const external = [
+  "@framework/virtual-remotes",
   "framework",
   /^framework\/.*/,
   "react",
@@ -28,6 +29,9 @@ export default defineConfig([
     entry: [
       "src/runtime.client.ts",
       "src/runtime.server.ts",
+      "src/client.tsx",
+      "src/client.internal.ts",
+      "src/remote.tsx",
       "src/server.tsx",
       "src/ssr.ts",
       "src/utils.ts",

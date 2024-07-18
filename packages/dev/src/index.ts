@@ -2,7 +2,9 @@ import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 
 import type { RsbuildPlugin } from "@rsbuild/core";
-import type { MultiStats } from "@rspack/core";
+
+import type { FrameworkRemote } from "framework/remote";
+import { cleanRemoteName } from "framework/utils";
 
 import {
   FrameworkPlugin,
@@ -24,22 +26,46 @@ async function resolveFile(base: string, filename: string, exts: string[]) {
   }
 }
 
-export function pluginFramework(): RsbuildPlugin {
+export type PluginFrameworkOptions = {
+  /**
+   * The base name of the containers for the build.
+   * @default package.json 'name'
+   */
+  containerName?: string;
+  remotes?: Record<string, FrameworkRemote>;
+};
+
+export function pluginFramework({
+  containerName,
+  remotes: _remotes,
+}: PluginFrameworkOptions = {}): RsbuildPlugin {
   return {
     name: "framework",
     async setup(api) {
-      const pkgJSON = JSON.parse(
-        await fsp.readFile(path.resolve(process.cwd(), "package.json"), "utf-8")
-      );
+      if (!containerName) {
+        const pkgJSON = JSON.parse(
+          await fsp.readFile(
+            path.resolve(process.cwd(), "package.json"),
+            "utf-8"
+          )
+        );
 
-      const containerName = pkgJSON.name?.replace(/[^\w]/g, "_") as string;
+        containerName = pkgJSON.name;
+      }
       if (!containerName) {
         throw new Error("A valid package.json 'name' is required.");
       }
+      containerName = cleanRemoteName(containerName);
+
+      const remotes = Object.fromEntries(
+        Object.entries(_remotes ?? {}).map(
+          ([name, remote]) => [cleanRemoteName(name), remote] as const
+        )
+      );
 
       const frameworkPlugin = new FrameworkPlugin(containerName);
-      const clientPlugin = new FrameworkClientPlugin(containerName);
-      const serverPlugin = new FrameworkServerPlugin(containerName);
+      const clientPlugin = new FrameworkClientPlugin(containerName, remotes);
+      const serverPlugin = new FrameworkServerPlugin(containerName, remotes);
 
       const serverEntry = await resolveFile(process.cwd(), "src/entry.server", [
         ".ts",
@@ -67,6 +93,9 @@ export function pluginFramework(): RsbuildPlugin {
                 },
                 tools: {
                   rspack: {
+                    output: {
+                      publicPath: "auto",
+                    },
                     resolve: {
                       conditionNames: ["browser", "..."],
                     },

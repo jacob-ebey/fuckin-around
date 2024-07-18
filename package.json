@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "build": "pnpm --recursive build",
     "watch": "pnpm --parallel watch"
   }
 }
