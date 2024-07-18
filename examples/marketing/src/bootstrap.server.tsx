@@ -5,7 +5,8 @@ import { OutletProvider } from "framework";
 export default defineApp(
   [
     {
-      // import: () => import("./routes/layout"),
+      // If we are in local dev for this app, we can spin up the host
+      // and federate in the layout here so we have a better feedback loop
       import: !process.env.LAYOUT
         ? undefined
         : async () => ({
