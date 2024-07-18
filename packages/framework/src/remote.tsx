@@ -1,6 +1,6 @@
 import { RemoteComponent } from "framework/client.internal";
 
-import { cleanRemoteName, isTextComponentContentType } from "./utils";
+import { cleanRemoteName, isTextComponentContentType } from "framework/utils";
 
 export type FrameworkRemote = {
   base: string;

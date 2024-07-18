@@ -95,7 +95,7 @@ export function defineApp(
       {
         status: 200,
         headers: {
-          "content-type": "text/x-component; charset=utf-8",
+          "content-type": "text/x-component",
           "Transfer-Encoding": "chunked",
         },
       }
