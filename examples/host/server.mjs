@@ -26,7 +26,7 @@ const browserAssets = express.static("dist/browser", {
   },
 });
 
-const ssr = false;
+const ssr = true;
 app.use((req, res, next) => {
   const url = new URL(req.url || "/", "http://localhost:3000");
   const isDataRequest = url.pathname.endsWith(".data");

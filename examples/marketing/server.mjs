@@ -26,12 +26,12 @@ const browserAssets = express.static("dist/browser", {
   },
 });
 
-const ssr = false;
+const ssr = true;
 app.use((req, res, next) => {
   const url = new URL(req.url || "/", "http://localhost:3001");
   const isDataRequest = url.pathname.endsWith(".data");
   const tryAssets =
-    !ssr || (url.pathname !== "/" && pathname !== "/index.html");
+    !ssr || (url.pathname !== "/" && url.pathname !== "/index.html");
 
   const sendResponse = () => {
     if (isDataRequest) {
