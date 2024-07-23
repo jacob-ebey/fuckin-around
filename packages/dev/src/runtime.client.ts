@@ -50,6 +50,14 @@ __webpack_require__.e = async (...args: unknown[]) => {
 export default function (): FederationRuntimePlugin {
   return {
     name: "framework_runtime_client",
+    //@ts-ignore
+    // createScript(args) {
+    //   console.log(args);
+    //   //@ts-ignore
+    //   console.log('file:/' + __non_webpack_require__.resolve(args.url));
+    //   //@ts-ignore
+    //   return 'file:/' + __non_webpack_require__.resolve(args.url) as any
+    // },
     fetch(href, init) {
       const url = new URL(href);
       if (url.pathname.endsWith("/remote-entry.js")) {
@@ -58,7 +66,7 @@ export default function (): FederationRuntimePlugin {
           "/mf-manifest.json"
         );
       }
-
+console.log(url);
       return fetch(url, init);
     },
   };

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as path from "node:path";
 
 import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
@@ -58,15 +59,15 @@ export class FrameworkClientPlugin {
         Object.entries(this.remotes).map(([name, remote]) => [
           `${cleanRemoteName(name)}_client`,
           libType
-            ? `${libType} ${remote.ssrEntry}`
+            ? `${cleanRemoteName(name)}_client@http://localhost:3000/ssr/${remote.ssrEntry}`
             : `${cleanRemoteName(name)}_client@${remote.browserEntry}`,
         ])
       ),
       [this.containerName + "_client"]: libType
-        ? `${libType} ./remote-entry.js`
+        ? `${this.containerName}_client@http://localhost:3000/ssr/remote-entry.js`
         : `${this.containerName}_client@/remote-entry.js`,
     };
-
+    console.log(allRemotes)
     new ModuleFederationPlugin({
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
@@ -85,6 +86,7 @@ export class FrameworkClientPlugin {
           version: "0.0.0",
         },
       },
+      remoteType: 'script',
       remotes: { ...allRemotes },
       runtimePlugins: [require.resolve("./runtime.client.js")],
     }).apply(compiler as any);
@@ -113,16 +115,19 @@ export class FrameworkServerPlugin {
     private remotes: Record<string, FrameworkRemote>
   ) {}
 
+
   apply(compiler: Rspack.Compiler) {
     new ModuleFederationPlugin({
       name: this.containerName + "_server",
       exposes: getExposedServerModules(),
       shareScope: "server",
+      remoteType: 'script',
       dts: false,
       shared: {
         react: { singleton: true, shareScope: "server" },
         "react-dom": { singleton: true, shareScope: "server" },
       },
+      runtimePlugins: [require.resolve('./runtime.server.js')],
       remotes: {
         [this.containerName + "_server"]: `promise new Promise(() => {
           import(${JSON.stringify(this.containerName + "_server")});

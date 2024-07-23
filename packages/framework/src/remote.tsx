@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { RemoteComponent } from "framework/client.internal";
 
 import { cleanRemoteName, isTextComponentContentType } from "framework/utils";

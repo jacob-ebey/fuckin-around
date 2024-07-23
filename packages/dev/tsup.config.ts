@@ -8,8 +8,9 @@ export default defineConfig([
       "src/plugins.ts",
       "src/rsc-loader.ts",
       "src/runtime.client.ts",
+      "src/runtime.server.ts",
     ],
     dts: true,
-    external: ["./plugins.js", "./rsc-loader.js", "./runtime.client.js"],
+    external: ["./plugins.js", "./rsc-loader.js", "./runtime.client.js", "./runtime.server.js"],
   },
 ]);

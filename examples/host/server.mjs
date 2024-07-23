@@ -1,6 +1,6 @@
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
-
+import * as fs from 'node:fs';
 import serverMod from "./dist/server/index.js";
 import ssrMod from "./dist/ssr/index.js";
 
@@ -26,13 +26,28 @@ const browserAssets = express.static("dist/browser", {
   },
 });
 
+const serverAssets = express.static("dist/browser", {
+  setHeaders(res, path, stat) {
+    if (path.endsWith(".json")) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET");
+    }
+  },
+});
+
+
 const ssr = true;
 app.use((req, res, next) => {
   const url = new URL(req.url || "/", "http://localhost:3000");
   const isDataRequest = url.pathname.endsWith(".data");
   const tryAssets =
-    !ssr || (url.pathname !== "/" && pathname !== "/index.html");
+    !ssr || (url.pathname !== "/" && url.pathname !== "/index.html");
 
+
+  if(req.url.startsWith('/ssr')) {
+    console.log(req.url);
+    return res.send(fs.readFileSync('./dist' + req.url, 'utf-8'))
+  }
   const sendResponse = () => {
     if (isDataRequest) {
       const serverUrl = new URL(url);
