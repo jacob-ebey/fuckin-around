@@ -11,7 +11,7 @@ export default defineConfig({
         "@example/host": {
           base: "http://localhost:3000",
           browserEntry: "http://localhost:3000/remote-entry.js",
-          ssrEntry: "/remote-entry.js",
+          // ssrEntry: "/remote-entry.js",
         },
       },
     }),
