@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
   if(req.url.startsWith('/ssr')) {
     console.log(req.url);
-    return res.send(fs.readFileSync('./dist' + req.url, 'utf-8'))
+    return res.sendFile('dist' + req.url,{ root: process.cwd() });
   }
   const sendResponse = () => {
     if (isDataRequest) {
