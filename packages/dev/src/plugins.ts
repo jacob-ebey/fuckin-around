@@ -72,7 +72,7 @@ export class FrameworkClientPlugin {
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
       library: {
-        type: libType ? 'commonjs' : 'var',
+        type: libType ? 'commonjs-module' : 'var',
         name: this.containerName + "_client"
       },
       shareScope: "client",
