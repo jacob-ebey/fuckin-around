@@ -71,6 +71,10 @@ export class FrameworkClientPlugin {
     new ModuleFederationPlugin({
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
+      library: {
+        type: libType ? 'commonjs' : 'var',
+        name: this.containerName + "_client"
+      },
       shareScope: "client",
       filename: "remote-entry.js",
       dts: false,
@@ -121,13 +125,14 @@ export class FrameworkServerPlugin {
       name: this.containerName + "_server",
       exposes: getExposedServerModules(),
       shareScope: "server",
+      filename: 'server-remote.js',
       remoteType: 'script',
       dts: false,
       shared: {
         react: { singleton: true, shareScope: "server" },
         "react-dom": { singleton: true, shareScope: "server" },
       },
-      runtimePlugins: [require.resolve('./runtime.server.js')],
+      // runtimePlugins: [require.resolve('./runtime.server.js')],
       remotes: {
         [this.containerName + "_server"]: `promise new Promise(() => {
           import(${JSON.stringify(this.containerName + "_server")});
