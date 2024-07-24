@@ -92,7 +92,10 @@ export class FrameworkClientPlugin {
       },
       remoteType: 'script',
       remotes: { ...allRemotes },
-      runtimePlugins: [require.resolve("./runtime.client.js")],
+      runtimePlugins: [
+        require.resolve("@module-federation/node/runtimePlugin"),
+        require.resolve("./runtime.client.js")
+      ],
     }).apply(compiler as any);
 
     // new RspackCircularDependencyPlugin({
@@ -121,6 +124,7 @@ export class FrameworkServerPlugin {
 
 
   apply(compiler: Rspack.Compiler) {
+    compiler.options.output.publicPath = 'auto';
     new ModuleFederationPlugin({
       name: this.containerName + "_server",
       exposes: getExposedServerModules(),
@@ -132,7 +136,10 @@ export class FrameworkServerPlugin {
         react: { singleton: true, shareScope: "server" },
         "react-dom": { singleton: true, shareScope: "server" },
       },
-      // runtimePlugins: [require.resolve('./runtime.server.js')],
+      runtimePlugins: [
+          require.resolve("@module-federation/node/runtimePlugin"),
+          // require.resolve('./runtime.server.js')
+      ],
       remotes: {
         [this.containerName + "_server"]: `promise new Promise(() => {
           import(${JSON.stringify(this.containerName + "_server")});

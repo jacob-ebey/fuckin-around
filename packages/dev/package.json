@@ -17,6 +17,7 @@
   "dependencies": {
     "@hattip/adapter-node": "0.0.46",
     "@module-federation/enhanced": "0.2.6",
+    "@module-federation/node": "2.5.1",
     "@module-federation/runtime": "0.2.6",
     "@rsbuild/core": "1.0.1-beta.3",
     "@rsdoctor/rspack-plugin": "0.3.8",
