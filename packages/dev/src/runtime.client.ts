@@ -22,7 +22,7 @@ declare global {
 const ogEnsure = __webpack_require__.e;
 __webpack_require__.e = async (...args: unknown[]) => {
   const [id] = args as [string | number];
-
+console.log('ensureing')
   if (typeof id === "string" && id.startsWith("fcr:")) {
     const [, remoteId, ...restClientId] = id.split(":");
     const clientId = restClientId.join(":");

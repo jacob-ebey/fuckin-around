@@ -33,13 +33,20 @@ app.use((req, res, next) => {
   const tryAssets =
     !ssr || (url.pathname !== "/" && url.pathname !== "/index.html");
 
+  if(req.url.startsWith('/ssr')) {
+    return res.sendFile('dist' + req.url,{ root: process.cwd() });
+  }
+
   const sendResponse = () => {
     if (isDataRequest) {
       const serverUrl = new URL(url);
       serverUrl.pathname = serverUrl.pathname.replace(/\.data$/, "");
       req.url = serverUrl.pathname + serverUrl.search;
+      console.log('respond to serverMiddleware')
       serverMiddleware(req, res, next);
     } else if (ssr) {
+      console.log('respond to ssrMiddleware')
+
       ssrMiddleware(req, res, next);
     } else {
       res.sendFile("dist/browser/index.html", { root: process.cwd() });

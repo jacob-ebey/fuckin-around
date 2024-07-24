@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 
 
   if(req.url.startsWith('/ssr')) {
-    console.log(req.url);
     return res.sendFile('dist' + req.url,{ root: process.cwd() });
   }
   const sendResponse = () => {
@@ -53,8 +52,11 @@ app.use((req, res, next) => {
       const serverUrl = new URL(url);
       serverUrl.pathname = serverUrl.pathname.replace(/\.data$/, "");
       req.url = serverUrl.pathname + serverUrl.search;
+      console.log('send response server mid')
       serverMiddleware(req, res, next);
     } else if (ssr) {
+      console.log('send response ssr mid')
+
       ssrMiddleware(req, res, next);
     } else {
       res.sendFile("dist/browser/index.html", { root: process.cwd() });
