@@ -59,13 +59,13 @@ export class FrameworkClientPlugin {
         Object.entries(this.remotes).map(([name, remote]) => [
           `${cleanRemoteName(name)}_client`,
           libType
-            ? `${cleanRemoteName(name)}_client@http://localhost:3000/ssr/${remote.ssrEntry}`
+            ? `${cleanRemoteName(name)}_client@${remote.ssrEntry}`
             : `${cleanRemoteName(name)}_client@${remote.browserEntry}`,
         ])
       ),
-      [this.containerName + "_client"]: libType
-        ? `${this.containerName}_client@http://localhost:3000/ssr/remote-entry.js`
-        : `${this.containerName}_client@/remote-entry.js`,
+      // [this.containerName + "_client"]: libType
+      //   ? `${this.containerName}_client@${this.remotes[Object.keys(this.remotes)[0]].ssrEntry}`
+      //   : `${this.containerName}_client@${this.remotes[Object.keys(this.remotes)[0]].browserEntry}`,
     };
     console.log(allRemotes)
     new ModuleFederationPlugin({
