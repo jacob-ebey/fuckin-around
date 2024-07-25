@@ -19,19 +19,19 @@ const app = express();
 
 const browserAssets = express.static("dist/browser", {
   setHeaders(res, path, stat) {
-    if (path.endsWith(".json")) {
+    if (path.endsWith(".json") || path.endsWith(".js")) {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Methods", "GET");
     }
   },
 });
 
-const ssr = false;
+const ssr = true;
 app.use((req, res, next) => {
   const url = new URL(req.url || "/", "http://localhost:3000");
   const isDataRequest = url.pathname.endsWith(".data");
   const tryAssets =
-    !ssr || (url.pathname !== "/" && pathname !== "/index.html");
+    !ssr || (url.pathname !== "/" && url.pathname !== "/index.html");
 
   const sendResponse = () => {
     if (isDataRequest) {
@@ -47,6 +47,10 @@ app.use((req, res, next) => {
   };
 
   if (tryAssets) {
+    if (req.url.startsWith("/ssr/")) {
+      return res.sendFile("dist" + req.url, { root: process.cwd() });
+    }
+
     browserAssets(req, res, (reason) => {
       if (reason) {
         next(reason);

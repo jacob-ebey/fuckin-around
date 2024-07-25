@@ -87,6 +87,7 @@ export function pluginFramework({
                 output: {
                   target: "web",
                   sourceMap: { js: false },
+                  manifest: true,
                   distPath: {
                     root: "dist/browser",
                   },
@@ -117,6 +118,9 @@ export function pluginFramework({
                 },
                 tools: {
                   rspack: {
+                    output: {
+                      publicPath: "auto",
+                    },
                     resolve: {
                       conditionNames: ["webpack", "node", "..."],
                     },
@@ -139,6 +143,9 @@ export function pluginFramework({
                 },
                 tools: {
                   rspack: {
+                    output: {
+                      publicPath: "auto",
+                    },
                     resolve: {
                       conditionNames: [
                         "react-server",

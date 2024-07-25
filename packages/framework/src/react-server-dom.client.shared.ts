@@ -4,7 +4,7 @@ export function getSsrManifest() {
       {},
       {
         get(target, p, receiver) {
-          console.log({ p });
+          // console.log({ p });
           return undefined;
         },
       }

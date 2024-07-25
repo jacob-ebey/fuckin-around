@@ -2,29 +2,56 @@ import * as React from "react";
 
 import { createFromReadableStream } from "framework/react-server-dom.client";
 
-const RemoteContext = React.createContext({
-  cache: new Map<ReadableStream<Uint8Array>, React.ReactNode>(),
-  useReadableStreamElement(
-    readableStream: ReadableStream<Uint8Array>
-  ): React.ReactNode {
-    const cached = this.cache.get(readableStream);
-    if (cached) {
-      return cached;
-    }
-    const element = createFromReadableStream(readableStream);
-    this.cache.set(readableStream, element);
-    return element;
-  },
-});
+function createRemoteContext() {
+  const cache = new WeakMap<
+    ReadableStream<Uint8Array>,
+    React.Usable<React.ReactNode>
+  >();
+  return {
+    getElementForReadableStream(
+      readableStream: ReadableStream<Uint8Array>
+    ): React.Usable<React.ReactNode> {
+      const cached = cache.get(readableStream);
+      if (cached) {
+        return cached;
+      }
+      const element = createFromReadableStream(readableStream);
+      cache.set(readableStream, element);
+      return element;
+    },
+  };
+}
+
+const RemoteContext = React.createContext<null | ReturnType<
+  typeof createRemoteContext
+>>(null);
+
+export function RemoteContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const ctx = React.useMemo(createRemoteContext, []);
+
+  return (
+    <RemoteContext.Provider value={ctx}>{children}</RemoteContext.Provider>
+  );
+}
 
 export type RemoteComponentProps = {
   readableStream: ReadableStream<Uint8Array>;
 };
 
 export function RemoteComponent({ readableStream }: RemoteComponentProps) {
-  const ctx = React.useContext(RemoteContext);
+  const ctx = React.use(RemoteContext);
+  if (!ctx) {
+    throw new Error("RemoteComponent must be used within a RemoteContext");
+  }
 
-  return ctx.useReadableStreamElement(readableStream);
+  const remoteComponent = React.use(
+    ctx.getElementForReadableStream(readableStream)
+  );
+  return remoteComponent;
 }
 
 const OutletContext = React.createContext<
@@ -43,5 +70,5 @@ export function OutletProvider({ children, outlets }: OutletProviderProps) {
 }
 
 export function Outlet({ id = "children" }: { id?: string }) {
-  return React.useContext(OutletContext)[id];
+  return React.use(OutletContext)[id];
 }

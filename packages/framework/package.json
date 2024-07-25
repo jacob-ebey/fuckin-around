@@ -156,9 +156,9 @@
     "watch": "tsup --watch"
   },
   "dependencies": {
-    "react": "19.0.0-rc-163365a0-20240717",
-    "react-dom": "19.0.0-rc-163365a0-20240717",
-    "react-server-dom-webpack": "19.0.0-rc-163365a0-20240717",
+    "react": "19.0.0-rc-14a4699f-20240725",
+    "react-dom": "19.0.0-rc-14a4699f-20240725",
+    "react-server-dom-webpack": "19.0.0-rc-14a4699f-20240725",
     "rsc-html-stream": "0.0.3",
     "urlpattern-polyfill": "10.0.0"
   },

@@ -12,15 +12,15 @@
     "@hattip/adapter-node": "0.0.46",
     "express": "^4.19.2",
     "framework": "workspace:*",
-    "react": "19.0.0-rc-163365a0-20240717",
-    "react-dom": "19.0.0-rc-163365a0-20240717",
-    "react-server-dom-webpack": "19.0.0-rc-163365a0-20240717"
+    "react": "19.0.0-rc-14a4699f-20240725",
+    "react-dom": "19.0.0-rc-14a4699f-20240725",
+    "react-server-dom-webpack": "19.0.0-rc-14a4699f-20240725"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@framework/dev": "workspace:*",
-    "@rsbuild/core": "1.0.1-beta.3",
-    "@rsbuild/plugin-react": "1.0.0-alpha.7",
+    "@rsbuild/core": "1.0.1-beta.5",
+    "@rsbuild/plugin-react": "1.0.1-beta.5",
     "@types/express": "^4.17.21",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

@@ -8,9 +8,15 @@ export default defineConfig({
     pluginReact(),
     pluginFramework({
       remotes: {
+        "@example/host": {
+          base: "http://localhost:3000",
+          browserEntry: "http://localhost:3000/remote-entry.js",
+          ssrEntry: "http://localhost:3000/ssr/remote-entry.js",
+        },
         "@example/marketing": {
           base: "http://localhost:3001",
           browserEntry: "http://localhost:3001/remote-entry.js",
+          ssrEntry: "http://localhost:3001/ssr/remote-entry.js",
         },
       },
     }),

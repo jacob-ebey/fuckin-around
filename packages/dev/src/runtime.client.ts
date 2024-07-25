@@ -29,15 +29,8 @@ __webpack_require__.e = async (...args: unknown[]) => {
     const [exposedId, ...restExportedId] = clientId.split("#");
     const exportedId = restExportedId.join("#");
 
-    console.log("loading remote...", id);
-    // await preloadRemote([
-    //   {
-    //     nameOrAlias: remoteId,
-    //   },
-    // ]);
     // TODO: This is randomly hanging and IDK why yet
     const mod = await loadRemote(remoteId + exposedId.slice(1));
-    console.log("loaded remote", id);
     __webpack_require__.c[id] = {
       exports: mod,
     };
@@ -50,16 +43,16 @@ __webpack_require__.e = async (...args: unknown[]) => {
 export default function (): FederationRuntimePlugin {
   return {
     name: "framework_runtime_client",
-    fetch(href, init) {
-      const url = new URL(href);
-      if (url.pathname.endsWith("/remote-entry.js")) {
-        url.pathname = url.pathname.replace(
-          /\/remote-entry.js$/,
-          "/mf-manifest.json"
-        );
-      }
+    // fetch(href, init) {
+    //   const url = new URL(href);
+    //   if (url.pathname.endsWith("/remote-entry.js")) {
+    //     url.pathname = url.pathname.replace(
+    //       /\/remote-entry.js$/,
+    //       "/mf-manifest.json"
+    //     );
+    //   }
 
-      return fetch(url, init);
-    },
+    //   return fetch(url, init);
+    // },
   };
 }

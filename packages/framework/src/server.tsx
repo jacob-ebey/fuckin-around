@@ -1,5 +1,6 @@
 import { URLPattern } from "urlpattern-polyfill";
 
+import { RemoteContextProvider } from "framework/client.internal";
 import { renderToReadableStream } from "framework/react-server-dom.server";
 
 export { Outlet, OutletProvider } from "framework/client.internal";
@@ -28,20 +29,6 @@ export type DefineAppOptions = {
   renderMatch: (url: URL, match: Match | null) => Promise<unknown>;
 };
 
-function DefaultNotFoundFallback() {
-  return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <title>Not Found</title>
-      </head>
-      <body>
-        <h1>Not Found</h1>
-      </body>
-    </html>
-  );
-}
-
 export function defaultRenderMatch() {
   return async (url: URL, match: Match | null) => {
     if (!match) {
@@ -62,7 +49,7 @@ export function defaultRenderMatch() {
         );
       }
     }
-    return rendered;
+    return <RemoteContextProvider>{rendered}</RemoteContextProvider>;
   };
 }
 
@@ -89,7 +76,6 @@ export function defineApp(
 
     const root = renderMatch(url, matched || null);
 
-    const decoder = new TextDecoder();
     return new Response(
       await renderToReadableStream(root, { signal: request.signal }),
       {

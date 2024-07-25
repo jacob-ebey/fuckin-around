@@ -58,52 +58,44 @@ export class FrameworkClientPlugin {
         Object.entries(this.remotes).map(([name, remote]) => [
           `${cleanRemoteName(name)}_client`,
           libType
-            ? `${libType} ${remote.ssrEntry}`
+            ? `${cleanRemoteName(name)}_client@${remote.ssrEntry}`
             : `${cleanRemoteName(name)}_client@${remote.browserEntry}`,
         ])
       ),
-      [this.containerName + "_client"]: libType
-        ? `${libType} ./remote-entry.js`
-        : `${this.containerName}_client@/remote-entry.js`,
     };
 
     new ModuleFederationPlugin({
       name: this.containerName + "_client",
       exposes: getExposedClientModules(),
+      library: {
+        type: libType ? "commonjs-module" : "var",
+        name: this.containerName + "_client",
+      },
       shareScope: "client",
       filename: "remote-entry.js",
       dts: false,
       shared: {
         react: { singleton: true },
         "react-dom": { singleton: true },
-        "react-server-dom-webpack": { singleton: true },
+        "react-server-dom-webpack/client": { singleton: true },
         "framework/client": {
           singleton: true,
           version: "0.0.0",
         },
         "framework/react-server-dom.client": {
+          singleton: true,
           version: "0.0.0",
         },
       },
+      remoteType: "script",
       remotes: { ...allRemotes },
-      runtimePlugins: [require.resolve("./runtime.client.js")],
+      runtimePlugins: [
+        libType
+          ? require.resolve("@module-federation/node/runtimePlugin")
+          : null,
+        require.resolve("./runtime.client.js"),
+      ].filter(Boolean) as string[],
     }).apply(compiler as any);
-
-    // new RspackCircularDependencyPlugin({
-    //   // `onStart` is called before the cycle detection starts
-    //   onStart({ compilation }: any) {
-    //     console.log("start detecting rspack modules cycles");
-    //   },
-    //   // `onDetected` is called for each module that is cyclical
-    //   onDetected({ paths, compilation }: any) {
-    //     // `paths` will be an Array of the relative module paths that make up the cycle
-    //     compilation.errors.push(new Error(paths.join(" -> ")));
-    //   },
-    //   // `onEnd` is called before the cycle detection ends
-    //   onEnd({ compilation }: any) {
-    //     console.log("end detecting rspack modules cycles");
-    //   },
-    // }).apply(compiler as any);
   }
 }
 
@@ -114,21 +106,22 @@ export class FrameworkServerPlugin {
   ) {}
 
   apply(compiler: Rspack.Compiler) {
-    new ModuleFederationPlugin({
-      name: this.containerName + "_server",
-      exposes: getExposedServerModules(),
-      shareScope: "server",
-      dts: false,
-      shared: {
-        react: { singleton: true, shareScope: "server" },
-        "react-dom": { singleton: true, shareScope: "server" },
-      },
-      remotes: {
-        [this.containerName + "_server"]: `promise new Promise(() => {
-          import(${JSON.stringify(this.containerName + "_server")});
-        })`,
-      },
-    }).apply(compiler as any);
+    // new ModuleFederationPlugin({
+    //   name: this.containerName + "_server",
+    //   exposes: getExposedServerModules(),
+    //   shareScope: "server",
+    //   filename: "remote-entry.js",
+    //   dts: false,
+    //   shared: {
+    //     react: { singleton: true, shareScope: "server" },
+    //     "react-dom": { singleton: true, shareScope: "server" },
+    //   },
+    //   remotes: {
+    //     [this.containerName + "_server"]: `promise new Promise(() => {
+    //       import(${JSON.stringify(this.containerName + "_server")});
+    //     })`,
+    //   },
+    // }).apply(compiler as any);
 
     new DefinePlugin({
       __FRAMEWORK_REMOTES__: JSON.stringify(this.remotes),

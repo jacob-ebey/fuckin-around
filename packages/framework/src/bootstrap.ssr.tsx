@@ -18,7 +18,9 @@ export default async function handleRequest(
     });
   }
 
-  const root = await createFromReadableStream(rscResponse.body);
+  const root = await createFromReadableStream(rscResponse.body, {
+    replayConsoleLogs: false,
+  });
   const body = await renderToReadableStream(root, { signal: request.signal });
 
   return new Response(body, {
