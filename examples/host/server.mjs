@@ -63,6 +63,7 @@ app.use((req, res, next) => {
     }
   };
 
+
   if (tryAssets) {
     browserAssets(req, res, (reason) => {
       if (reason) {

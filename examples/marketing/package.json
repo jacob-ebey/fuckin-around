@@ -12,9 +12,9 @@
     "@hattip/adapter-node": "0.0.46",
     "express": "^4.19.2",
     "framework": "workspace:*",
-    "react": "19.0.0-rc-163365a0-20240717",
-    "react-dom": "19.0.0-rc-163365a0-20240717",
-    "react-server-dom-webpack": "19.0.0-rc-163365a0-20240717"
+    "react": "18.3.0-next-1308e49a6-20230330",
+    "react-dom": "18.3.0-next-1308e49a6-20230330",
+    "react-server-dom-webpack": "18.3.0-next-1308e49a6-20230330"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

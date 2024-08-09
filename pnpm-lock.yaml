@@ -20,14 +20,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/framework
       react:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330
       react-dom:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330)
       react-server-dom-webpack:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react-dom@19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717))(react@19.0.0-rc-163365a0-20240717)(webpack@5.92.1)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react-dom@18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330))(react@18.3.0-next-1308e49a6-20230330)(webpack@5.92.1)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -69,14 +69,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/framework
       react:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330
       react-dom:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330)
       react-server-dom-webpack:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react-dom@19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717))(react@19.0.0-rc-163365a0-20240717)(webpack@5.92.1)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react-dom@18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330))(react@18.3.0-next-1308e49a6-20230330)(webpack@5.92.1)
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -149,14 +149,14 @@ importers:
   packages/framework:
     dependencies:
       react:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330
       react-dom:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330)
       react-server-dom-webpack:
-        specifier: 19.0.0-rc-163365a0-20240717
-        version: 19.0.0-rc-163365a0-20240717(react-dom@19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717))(react@19.0.0-rc-163365a0-20240717)(webpack@5.92.1)
+        specifier: 18.3.0-next-1308e49a6-20230330
+        version: 18.3.0-next-1308e49a6-20230330(react-dom@18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330))(react@18.3.0-next-1308e49a6-20230330)(webpack@5.92.1)
       rsc-html-stream:
         specifier: 0.0.3
         version: 0.0.3
@@ -1947,6 +1947,10 @@ packages:
   long-timeout@0.1.1:
     resolution: {integrity: sha512-BFRuQUqc7x2NWxfJBCyUrN8iYUYznzL9JROmRz1gZ6KlOIgmoD+njPVbb+VNn2nGMKggMsK79iUNErillsrx7w==}
 
+  loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
@@ -2185,25 +2189,25 @@ packages:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
 
-  react-dom@19.0.0-rc-163365a0-20240717:
-    resolution: {integrity: sha512-eW9DM2ug7i2s2RCKR8jSfACiGEVdn+JSIeISLB3wT/bXWSZp5FoKmmk2WD82zOYTEjIrfL6RIvEnKem1R7MBkQ==}
+  react-dom@18.3.0-next-1308e49a6-20230330:
+    resolution: {integrity: sha512-EIrevFHBOKYL+9FywGIx5pX+HpOqFGj3YawNU0Xf+/XBJZ6VTD2h/1IkyOt7O0TFKIxWAP5+dSt11g1E6TM1rA==}
     peerDependencies:
-      react: 19.0.0-rc-163365a0-20240717
+      react: 18.3.0-next-1308e49a6-20230330
 
   react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
 
-  react-server-dom-webpack@19.0.0-rc-163365a0-20240717:
-    resolution: {integrity: sha512-8onhDRD/JJsxiPWKbt9z4WKqbb530e8T1X88nl8OVvz54v5ouo4KbnbGpzuKOk3SGov0zL2L8O5I62GKJG0lOg==}
+  react-server-dom-webpack@18.3.0-next-1308e49a6-20230330:
+    resolution: {integrity: sha512-jos7PXPC3/7r8lDWGQm9Rwj+nqot6xVrhm51VObf7kj4KODeseYuNBUyUftO354TaKtMMAwDX9KpnmTfPTTi7g==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
-      react: 19.0.0-rc-163365a0-20240717
-      react-dom: 19.0.0-rc-163365a0-20240717
+      react: 18.3.0-next-1308e49a6-20230330
+      react-dom: 18.3.0-next-1308e49a6-20230330
       webpack: ^5.59.0
 
-  react@19.0.0-rc-163365a0-20240717:
-    resolution: {integrity: sha512-reio1X2LU8V6G/TxHr20h1cpVMi8PseSBgap65JhTiOOqk0HrSWXPh9WYt9v9uE66q6EcvaexGDy7Gpoo3mR7g==}
+  react@18.3.0-next-1308e49a6-20230330:
+    resolution: {integrity: sha512-kOdZHskH1EBCUvnOVHpyq5r88EOSFGwz+qqH0kElH6bbWHZhJRykGf8tHB7ci0m/oU5cfqGut4K04fqbSgVGNA==}
     engines: {node: '>=0.10.0'}
 
   readdirp@3.6.0:
@@ -2253,8 +2257,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  scheduler@0.25.0-rc-163365a0-20240717:
-    resolution: {integrity: sha512-t/YYcnKZwBLS8CSHwAXvSDKW0lUjDxkiMJzJ6JGrV/AdKoVcKfbdg00MCSZoF0nBznZQeSgQF+tHCi1nzX1Leg==}
+  scheduler@0.24.0-next-1308e49a6-20230330:
+    resolution: {integrity: sha512-bDqbYnUZ30qTdLARhmj00VeH81GjOXxbGObUtTZFE5JVN0PMcN1H3ZQNUO56XUR788Res+l49XL8vcv+AV1LFg==}
 
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
@@ -4649,6 +4653,10 @@ snapshots:
 
   long-timeout@0.1.1: {}
 
+  loose-envify@1.4.0:
+    dependencies:
+      js-tokens: 4.0.0
+
   lru-cache@10.4.3: {}
 
   lru-cache@5.1.1:
@@ -4833,22 +4841,26 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-dom@19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717):
+  react-dom@18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330):
     dependencies:
-      react: 19.0.0-rc-163365a0-20240717
-      scheduler: 0.25.0-rc-163365a0-20240717
+      loose-envify: 1.4.0
+      react: 18.3.0-next-1308e49a6-20230330
+      scheduler: 0.24.0-next-1308e49a6-20230330
 
   react-refresh@0.14.2: {}
 
-  react-server-dom-webpack@19.0.0-rc-163365a0-20240717(react-dom@19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717))(react@19.0.0-rc-163365a0-20240717)(webpack@5.92.1):
+  react-server-dom-webpack@18.3.0-next-1308e49a6-20230330(react-dom@18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330))(react@18.3.0-next-1308e49a6-20230330)(webpack@5.92.1):
     dependencies:
       acorn-loose: 8.4.0
+      loose-envify: 1.4.0
       neo-async: 2.6.2
-      react: 19.0.0-rc-163365a0-20240717
-      react-dom: 19.0.0-rc-163365a0-20240717(react@19.0.0-rc-163365a0-20240717)
+      react: 18.3.0-next-1308e49a6-20230330
+      react-dom: 18.3.0-next-1308e49a6-20230330(react@18.3.0-next-1308e49a6-20230330)
       webpack: 5.92.1
 
-  react@19.0.0-rc-163365a0-20240717: {}
+  react@18.3.0-next-1308e49a6-20230330:
+    dependencies:
+      loose-envify: 1.4.0
 
   readdirp@3.6.0:
     dependencies:
@@ -4909,7 +4921,9 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  scheduler@0.25.0-rc-163365a0-20240717: {}
+  scheduler@0.24.0-next-1308e49a6-20230330:
+    dependencies:
+      loose-envify: 1.4.0
 
   schema-utils@3.3.0:
     dependencies:

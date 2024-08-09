@@ -125,6 +125,7 @@ export class FrameworkServerPlugin {
 
   apply(compiler: Rspack.Compiler) {
     compiler.options.output.publicPath = 'auto';
+    compiler.options.target = 'async-node';
     new ModuleFederationPlugin({
       name: this.containerName + "_server",
       exposes: getExposedServerModules(),
