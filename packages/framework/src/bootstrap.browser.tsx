@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 
 import { createFromReadableStream } from "framework/react-server-dom.client";
 import { isTextComponentContentType } from "framework/utils";
@@ -7,30 +7,42 @@ import { isTextComponentContentType } from "framework/utils";
 let root: ReturnType<typeof createRoot> | null;
 const url = new URL(window.location.href);
 url.pathname += ".data";
-fetch(url, {
-  headers: { Accept: "text/x-component" },
-}).then(async (response) => {
-  if (!response.body) {
-    throw new Error("RSC response body is missing");
-  }
-  if (!isTextComponentContentType(response.headers.get("content-type"))) {
-    throw new Error("Invalid content type");
-  }
-  const rootElement = document.getElementById("root");
-  if (!rootElement) {
-    console.error("Root element not found");
-    return;
-  }
-  const vdom = await createFromReadableStream(response.body);
-  React.startTransition(() => {
-    root = createRoot(rootElement, {
-      onRecoverableError(error, errorInfo) {
-        console.error("Recoverable error", { error, errorInfo });
-      },
+const rootElement = document.getElementById("root");
+// SPA mode
+if (rootElement) {
+  fetch(url, {
+    headers: { Accept: "text/x-component" },
+  }).then(async (response) => {
+    if (!response.body) {
+      throw new Error("RSC response body is missing");
+    }
+    if (!isTextComponentContentType(response.headers.get("content-type"))) {
+      throw new Error("Invalid content type");
+    }
+
+    const vdom: React.Usable<React.ReactNode> = await createFromReadableStream(
+      response.body
+    );
+    React.startTransition(() => {
+      root = createRoot(rootElement, {
+        onRecoverableError(error, errorInfo) {
+          console.error("Recoverable error", { error, errorInfo });
+        },
+      });
+      root.render(<ClientRouter initialVDOM={vdom} />);
     });
-    root.render(<ClientRouter initialVDOM={vdom} />);
   });
-});
+} else {
+  // SSR Mode
+  // @ts-expect-error
+  createFromReadableStream(__RSC__.stream).then(
+    (vdom: React.Usable<React.ReactNode>) => {
+      React.startTransition(() => {
+        root = hydrateRoot(document, <ClientRouter initialVDOM={vdom} />);
+      });
+    }
+  );
+}
 
 function ClientRouter({
   initialVDOM,
@@ -88,5 +100,5 @@ function ClientRouter({
     }
   }, [setVDOM, startTransition]);
 
-  return vdom;
+  return React.use(vdom);
 }

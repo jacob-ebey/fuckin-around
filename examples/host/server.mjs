@@ -1,15 +1,32 @@
+import * as fs from "node:fs";
+
 import { createMiddleware } from "@hattip/adapter-node";
 import express from "express";
 
 import serverMod from "./dist/server/index.js";
 import ssrMod from "./dist/ssr/index.js";
 
+const manifest = JSON.parse(
+  fs.readFileSync("dist/browser/manifest.json", "utf-8")
+);
+
+console.log(
+  manifest.entries.index.initial.js.map((p) => p.replace(/^auto\//, "/"))
+);
+
 const serverMiddleware = createMiddleware((c) => serverMod.default(c.request), {
   alwaysCallNext: false,
 });
 
 const ssrMiddleware = createMiddleware(
-  (c) => ssrMod.default(c.request, (request) => serverMod.default(request)),
+  (c) =>
+    ssrMod.default(c.request, (request) => serverMod.default(request), {
+      bootstrapScripts: [
+        ...manifest.entries.index.initial.js.map((p) =>
+          p.replace(/^auto\//, "/")
+        ),
+      ],
+    }),
   {
     alwaysCallNext: false,
   }

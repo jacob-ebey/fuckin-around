@@ -14,12 +14,7 @@ const external = [
 export default defineConfig([
   // assets that are loaded by webpack
   {
-    entry: [
-      // "src/bootstrap.browser.tsx",
-      // "src/bootstrap.ssr.ts",
-      "src/entry.browser.ts",
-      "src/entry.ssr.ts",
-    ],
+    entry: ["src/entry.browser.ts", "src/entry.ssr.ts"],
     format: "esm",
     platform: "neutral",
     external,
@@ -33,7 +28,7 @@ export default defineConfig([
       "src/client.internal.ts",
       "src/remote.tsx",
       "src/server.tsx",
-      "src/ssr.ts",
+      "src/ssr.tsx",
       "src/utils.ts",
     ],
     format: ["cjs", "esm"],

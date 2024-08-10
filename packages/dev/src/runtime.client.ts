@@ -24,6 +24,7 @@ __webpack_require__.e = async (...args: unknown[]) => {
   const [id] = args as [string | number];
 
   if (typeof id === "string" && id.startsWith("fcr:")) {
+    console.log("fcr", id);
     const [, remoteId, ...restClientId] = id.split(":");
     const clientId = restClientId.join(":");
     const [exposedId, ...restExportedId] = clientId.split("#");
@@ -31,6 +32,7 @@ __webpack_require__.e = async (...args: unknown[]) => {
 
     // TODO: This is randomly hanging and IDK why yet
     const mod = await loadRemote(remoteId + exposedId.slice(1));
+    console.log("loaded", id);
     __webpack_require__.c[id] = {
       exports: mod,
     };

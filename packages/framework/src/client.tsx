@@ -2,11 +2,22 @@ import * as React from "react";
 
 import { createFromReadableStream } from "framework/react-server-dom.client";
 
+declare global {
+  interface Window {
+    __RSC_CACHE__: Map<
+      ReadableStream<Uint8Array>,
+      React.Usable<React.ReactNode>
+    >;
+  }
+}
+
 function createRemoteContext() {
-  const cache = new WeakMap<
-    ReadableStream<Uint8Array>,
-    React.Usable<React.ReactNode>
-  >();
+  const cache =
+    typeof document !== "undefined"
+      ? (window.__RSC_CACHE__ = window.__RSC_CACHE__ ?? new Map())
+      : new Map<ReadableStream<Uint8Array>, React.Usable<React.ReactNode>>();
+  console.log("createRemoteContext", cache);
+
   return {
     getElementForReadableStream(
       readableStream: ReadableStream<Uint8Array>
@@ -15,6 +26,7 @@ function createRemoteContext() {
       if (cached) {
         return cached;
       }
+      console.log(readableStream);
       const element = createFromReadableStream(readableStream);
       cache.set(readableStream, element);
       return element;

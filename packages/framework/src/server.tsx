@@ -49,7 +49,9 @@ export function defaultRenderMatch() {
         );
       }
     }
-    return <RemoteContextProvider>{rendered}</RemoteContextProvider>;
+    // random key to force re-render
+    const key = Math.random().toString(36).slice(2);
+    return <RemoteContextProvider key={key}>{rendered}</RemoteContextProvider>;
   };
 }
 
