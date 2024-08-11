@@ -80,7 +80,7 @@ function ClientRouter({
             if (!body) {
               throw new Error("RSC response body is missing");
             }
-            const vdom = await createFromReadableStream(body);
+            const vdom = createFromReadableStream(body);
             startTransition(() => {
               setVDOM({
                 vdom,

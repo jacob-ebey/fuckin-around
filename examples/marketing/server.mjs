@@ -10,10 +10,6 @@ const manifest = JSON.parse(
   fs.readFileSync("dist/browser/manifest.json", "utf-8")
 );
 
-console.log(
-  manifest.entries.index.initial.js.map((p) => p.replace(/^auto\//, "/"))
-);
-
 const serverMiddleware = createMiddleware((c) => serverMod.default(c.request), {
   alwaysCallNext: false,
 });
